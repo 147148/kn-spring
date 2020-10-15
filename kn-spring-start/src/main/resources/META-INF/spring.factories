@@ -1,0 +1,2 @@
+#配置spring
+org.springframework.context.ApplicationContextInitializer=com.kenan.spring.config.CustomApplicationContextInitializer\
