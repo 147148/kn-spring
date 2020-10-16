@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -75,10 +76,14 @@ public class CustomRefreshScopeBeanConfig implements InitializingBean, Applicati
         @Override
         public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(CUSTOM_REFRESH_SCOPE_BEAN);
-            MutablePropertyValues propertyValues = beanDefinition.getPropertyValues();
-            propertyValues.add("custom", "custom")
-                    .add("msg", "msg");
 
+            //为什么要获取getOriginatingBeanDefinition，是因为代理吗？
+            BeanDefinition originatingBeanDefinition = beanDefinition.getOriginatingBeanDefinition();
+            if (originatingBeanDefinition != null) {
+                MutablePropertyValues propertyValues = originatingBeanDefinition.getPropertyValues();
+                propertyValues.add("custom", "custom")
+                        .add("msg", "msg");
+            }
         }
 
         @Override
@@ -108,8 +113,6 @@ public class CustomRefreshScopeBeanConfig implements InitializingBean, Applicati
                 }
             }
         }
-
-
     }
 
 }
