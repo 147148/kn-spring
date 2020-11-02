@@ -24,6 +24,11 @@ public class CustomConfig implements InitializingBean {
         return new CustomBean();
     }
 
+    @Bean(initMethod = "it")
+    public BeanInitConfig beanInitConfig(){
+        return  new BeanInitConfig();
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         LOGGER.info("kn-spring-start项目加载CustomConfig成功.....");
